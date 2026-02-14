@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Satellite Threat & Collision Detection</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>AI Satellite Threat & Collision Detection</h1>
+      <p class="subtitle">Simple dashboard for orbital prediction and collision alerts.</p>
+
+      <section class="panel controls">
+        <h2>Step 1: Input Data</h2>
+        <div class="field-row">
+          <label for="dataMode">Data Source</label>
+          <select id="dataMode">
+            <option value="simulate" selected>Simulate orbital coordinates</option>
+            <option value="tle">Paste public TLE data</option>
+          </select>
+        </div>
+
+        <div id="simControls" class="field-group">
+          <div class="field-row">
+            <label for="satCount">Satellites</label>
+            <input id="satCount" type="number" min="2" max="12" value="4" />
+          </div>
+          <div class="field-row">
+            <label for="seed">Simulation Seed</label>
+            <input id="seed" type="number" value="42" />
+          </div>
+        </div>
+
+        <div id="tleControls" class="field-group hidden">
+          <label for="tleInput">TLE Input (3 lines per satellite)</label>
+          <textarea id="tleInput" rows="7" placeholder="SAT-1\n1 XXXXXU ...\n2 XXXXX ..."></textarea>
+        </div>
+
+        <h2>Step 2: Prediction Model</h2>
+        <div class="field-row">
+          <label for="modelType">Model</label>
+          <select id="modelType">
+            <option value="linear" selected>Linear Regression</option>
+            <option value="lstm" disabled>LSTM (placeholder)</option>
+          </select>
+        </div>
+
+        <h2>Step 3: Collision Logic</h2>
+        <div class="field-row">
+          <label for="threshold">Collision Threshold (km)</label>
+          <input id="threshold" type="number" min="1" max="2000" value="350" />
+        </div>
+
+        <button id="runBtn">Run Detection</button>
+      </section>
+
+      <section class="panel dashboard">
+        <h2>Step 4: Dashboard</h2>
+        <canvas id="orbitCanvas" width="760" height="480" aria-label="Earth and orbit paths"></canvas>
+
+        <div class="metrics">
+          <div class="metric-card">
+            <span class="metric-title">Closest Distance</span>
+            <span id="closestDistance" class="metric-value">--</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-title">Threat Percentage</span>
+            <span id="threatPercent" class="metric-value">0%</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-title">Alert Status</span>
+            <span id="alertStatus" class="metric-value safe">SAFE</span>
+          </div>
+        </div>
+
+        <div id="collisionList" class="collision-list"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
